@@ -1,5 +1,4 @@
 ﻿using Domain.Validations;
-using System.Text;
 
 namespace Domain.Entities
 {
@@ -14,8 +13,9 @@ namespace Domain.Entities
         public bool PagamentoEmDia { get; private set; }
         public EnderecoEmpresa EnderecoEmpresa { get; set; } = null!;
         public List<ContatoEmpresa> ContatosEmpresa { get; set; } = null!;
+        public List<Funcionario> Funcionarios { get; set; } = null!;
 
-        
+
         public Empresa(string razaoSocial, 
             string nomeFantasia, 
             string cnpj, 

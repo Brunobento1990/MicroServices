@@ -12,6 +12,7 @@ namespace Infrastructure.Context
         public DbSet<Empresa> Empresas { get; set; }
         public DbSet<ContatoEmpresa> ContatosEmpresas { get; set; }
         public DbSet<EnderecoEmpresa> EnderecosEmpresas { get; set; }
+        public DbSet<Funcionario> Funcionarios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

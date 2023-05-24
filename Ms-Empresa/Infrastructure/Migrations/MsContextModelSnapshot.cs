@@ -35,20 +35,17 @@ namespace Infrastructure.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Ddd")
-                        .IsRequired()
                         .HasMaxLength(2)
                         .HasColumnType("varchar(2)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("varchar(20)");
+                        .HasMaxLength(250)
+                        .HasColumnType("varchar(250)");
 
                     b.Property<Guid>("EmpresaId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Telefone")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("varchar(20)");
 
@@ -165,6 +162,72 @@ namespace Infrastructure.Migrations
                     b.ToTable("EnderecosEmpresas");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Funcionario", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<bool>("Adicionar")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<Guid>("CodigoEmailFerificado")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Cpf")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.Property<DateTime?>("DataDeAlteracao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DataDeCadastro")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("DataDeExclusao")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DataDeNascimento")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Editar")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("varchar(250)");
+
+                    b.Property<bool>("EmailVerificado")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<Guid>("EmpresaId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<bool>("Excluir")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("Master")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("varchar(250)");
+
+                    b.Property<string>("Senha")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmpresaId");
+
+                    b.ToTable("Funcionarios");
+                });
+
             modelBuilder.Entity("Domain.Entities.ContatoEmpresa", b =>
                 {
                     b.HasOne("Domain.Entities.Empresa", "Empresa")
@@ -187,12 +250,25 @@ namespace Infrastructure.Migrations
                     b.Navigation("Empresa");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Funcionario", b =>
+                {
+                    b.HasOne("Domain.Entities.Empresa", "Empresa")
+                        .WithMany("Funcionarios")
+                        .HasForeignKey("EmpresaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Empresa");
+                });
+
             modelBuilder.Entity("Domain.Entities.Empresa", b =>
                 {
                     b.Navigation("ContatosEmpresa");
 
                     b.Navigation("EnderecoEmpresa")
                         .IsRequired();
+
+                    b.Navigation("Funcionarios");
                 });
 #pragma warning restore 612, 618
         }

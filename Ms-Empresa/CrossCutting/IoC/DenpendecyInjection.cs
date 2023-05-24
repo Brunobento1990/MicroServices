@@ -17,7 +17,11 @@ namespace CrossCutting.IoC
     {
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
+            services.AddScoped<IAdicionarEmpresaService, AdicionarEmpresaService>();
+            services.AddScoped<ILoginFuncionarioService, LoginFuncionarioService>();
+            services.AddScoped<IGerarTokenSerive, GerarTokenSerive>();
             services.AddScoped<IEmpresaService, EmpresaService>();
+
 
             return services;
         }
@@ -71,6 +75,8 @@ namespace CrossCutting.IoC
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IEmpresaRepository, EmpresaRepository>();
+            services.AddScoped<IFuncionarioRepository, FuncionarioRepository>();
+            services.AddScoped<ILoginRepository, LoginRepository>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             
             return services;

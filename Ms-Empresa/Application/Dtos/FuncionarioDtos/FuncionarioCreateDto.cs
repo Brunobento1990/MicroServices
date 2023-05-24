@@ -12,7 +12,7 @@ namespace Application.Dtos.FuncionarioDtos
         public string Cpf { get; set; } = string.Empty;
         [Required]
         public DateTime DataDeNascimento { get; set; }
-        [StringLength(100)]
+        [StringLength(250)]
         [Required]
         public string Email { get; set; } = string.Empty;
         [StringLength(100)]

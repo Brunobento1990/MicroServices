@@ -2,11 +2,6 @@
 using Domain.Interfaces;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
@@ -43,8 +38,8 @@ namespace Infrastructure.Repositories
                 return await _dbContext.Empresas
                     .AsNoTracking()
                     .Include(x => x.EnderecoEmpresa)
-                    .Include(x => x.ContatosEmpresa)
-                    .SingleOrDefaultAsync(x => x.Id == id);
+                    .Include(x => x.ContatosEmpresa.Where(x => x.DataDeExclusao == null))
+                    .FirstOrDefaultAsync(x => x.Id == id && x.DataDeExclusao == null);
 
             }
             catch (Exception ex)
@@ -61,9 +56,9 @@ namespace Infrastructure.Repositories
                     .AsNoTracking()
                     .Include(x => x.EnderecoEmpresa)
                     .Include(x => x.ContatosEmpresa)
-                    .SingleOrDefaultAsync(x => x.Cnpj == cnpj);
+                    .FirstOrDefaultAsync(x => x.Cnpj == cnpj);
 
-                return empresa is null;
+                return empresa == null;
             }
             catch (Exception ex)
             {

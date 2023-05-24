@@ -47,11 +47,11 @@ namespace Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Ddd = table.Column<string>(type: "varchar(2)", maxLength: 2, nullable: false)
+                    Ddd = table.Column<string>(type: "varchar(2)", maxLength: 2, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Telefone = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false)
+                    Telefone = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Email = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false)
+                    Email = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     EmpresaId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     DataDeCadastro = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -104,6 +104,43 @@ namespace Infrastructure.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.CreateTable(
+                name: "Funcionarios",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Nome = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Cpf = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    DataDeNascimento = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Email = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Senha = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    EmailVerificado = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    CodigoEmailFerificado = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Adicionar = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Editar = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Excluir = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Master = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    EmpresaId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    DataDeCadastro = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    DataDeAlteracao = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    DataDeExclusao = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Funcionarios", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Funcionarios_Empresas_EmpresaId",
+                        column: x => x.EmpresaId,
+                        principalTable: "Empresas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateIndex(
                 name: "IX_ContatosEmpresas_EmpresaId",
                 table: "ContatosEmpresas",
@@ -114,6 +151,11 @@ namespace Infrastructure.Migrations
                 table: "EnderecosEmpresas",
                 column: "EmpresaId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Funcionarios_EmpresaId",
+                table: "Funcionarios",
+                column: "EmpresaId");
         }
 
         /// <inheritdoc />
@@ -124,6 +166,9 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "EnderecosEmpresas");
+
+            migrationBuilder.DropTable(
+                name: "Funcionarios");
 
             migrationBuilder.DropTable(
                 name: "Empresas");

@@ -13,6 +13,5 @@
         public bool Adicionar { get; set; }
         public bool Editar { get; set; }
         public bool Excluir { get; set; }
-        public Guid EmpresaId { get; set; }
     }
 }

@@ -4,6 +4,6 @@ namespace Application.Interfaces
 {
     public interface IEmpresaService
     {
-        Task<EmpresaViewDto> AdicionarEmpresaAsync(EmpresaCreateDto empresaCreateDto);
+        Task<EmpresaViewDto> GetEmpresaById(Guid id);
     }
 }
